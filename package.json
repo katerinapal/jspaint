@@ -1,92 +1,37 @@
 {
-    "name": "jspaint",
-    "version": "1.0.0",
-    "description": "An MS Paint remake.",
-    "keywords": [
-        "paint",
-        "jspaint",
-        "mspaint",
-        "drawing",
-        "draw",
-        "create",
-        "image",
-        "picture",
-        "editor",
-        "edit",
-        "canvas",
-        "app",
-        "nw-app",
-        "web-app"
-    ],
-    "main": "index.html",
-    "scripts": {
-        "start": "nw",
-        "dev": "live-server",
-        "test": "parallelshell \"http-server -p 11822 --silent\" \"casperjs test test.js --engine=slimerjs\"",
-        "test-verbose": "parallelshell \"http-server -p 11822\" \"casperjs test test.js --engine=slimerjs --verbose --log-level=debug\"",
-        "compile-testjs": "babel test.js -o test.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-indexjs": "babel index.js -o index.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libpepjs": "babel lib\\pep.js -o lib\\pep.js --require babel-polyfill --presets env",
-        "compile-srcappjs": "babel src\\app.js -o src\\app.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srchelpjs": "babel src\\help.js -o src\\help.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcmenusjs": "babel src\\$menus.js -o src\\$menus.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srctoolsjs": "babel src\\tools.js -o src\\tools.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-chromeappjs": "babel chrome-app.js -o chrome-app.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libpalettejs": "babel lib\\palette.js -o lib\\palette.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcWindowjs": "babel src\\$Window.js -o src\\$Window.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srchelpersjs": "babel src\\helpers.js -o src\\helpers.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcstoragejs": "babel src\\storage.js -o src\\storage.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcTextBoxjs": "babel src\\TextBox.js -o src\\TextBox.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libfirebasejs": "babel lib\\firebase.js -o lib\\firebase.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcFontBoxjs": "babel src\\$FontBox.js -o src\\$FontBox.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcHandlesjs": "babel src\\$Handles.js -o src\\$Handles.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcToolBoxjs": "babel src\\$ToolBox.js -o src\\$ToolBox.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcsessionsjs": "babel src\\sessions.js -o src\\sessions.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libFileSaverjs": "babel lib\\FileSaver.js -o lib\\FileSaver.js --require babel-polyfill --presets env",
-        "compile-srcColorBoxjs": "babel src\\$ColorBox.js -o src\\$ColorBox.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcfunctionsjs": "babel src\\functions.js -o src\\functions.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcSelectionjs": "babel src\\Selection.js -o src\\Selection.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libgifjsgifjs": "babel lib\\gif.js\\gif.js -o lib\\gif.js\\gif.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libjqueryminjs": "babel lib\\jquery.min.js -o lib\\jquery.min.js --require babel-polyfill --presets env",
-        "compile-srcComponentjs": "babel src\\$Component.js -o src\\$Component.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srctooloptionsjs": "babel src\\tool-options.js -o src\\tool-options.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libcanvastoBlobjs": "babel lib\\canvas.toBlob.js -o lib\\canvas.toBlob.js --require babel-polyfill --presets env",
-        "compile-srccanvaschangejs": "babel src\\canvas-change.js -o src\\canvas-change.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libfontdetectivejs": "babel lib\\font-detective.js -o lib\\font-detective.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcmanagestoragejs": "babel src\\manage-storage.js -o src\\manage-storage.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcOnCanvasObjectjs": "babel src\\OnCanvasObject.js -o src\\OnCanvasObject.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-libgifjsgifworkerjs": "babel lib\\gif.js\\gif.worker.js -o lib\\gif.js\\gif.worker.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-srcimagemanipulationjs": "babel src\\image-manipulation.js -o src\\image-manipulation.js --require babel-polyfill --presets es2015-without-strict",
-        "compile-1_script": "npm run compile-testjs && npm run compile-indexjs && npm run compile-libpepjs && npm run compile-srcappjs && npm run compile-srchelpjs && npm run compile-srcmenusjs && npm run compile-srctoolsjs && npm run compile-chromeappjs && npm run compile-libpalettejs && npm run compile-srcWindowjs && npm run compile-srchelpersjs && npm run compile-srcstoragejs && npm run compile-srcTextBoxjs && npm run compile-libfirebasejs && npm run compile-srcFontBoxjs && npm run compile-srcHandlesjs && npm run compile-srcToolBoxjs && npm run compile-srcsessionsjs && npm run compile-libFileSaverjs && npm run compile-srcColorBoxjs",
-        "compile-2_script": "npm run compile-libfirebasejs && npm run compile-srcFontBoxjs && npm run compile-srcHandlesjs && npm run compile-srcToolBoxjs && npm run compile-srcsessionsjs && npm run compile-libFileSaverjs && npm run compile-srcColorBoxjs && npm run compile-srcfunctionsjs && npm run compile-srcSelectionjs && npm run compile-libgifjsgifjs && npm run compile-libjqueryminjs && npm run compile-srcComponentjs && npm run compile-srctooloptionsjs && npm run compile-libcanvastoBlobjs && npm run compile-srccanvaschangejs && npm run compile-libfontdetectivejs && npm run compile-srcmanagestoragejs && npm run compile-srcOnCanvasObjectjs && npm run compile-libgifjsgifworkerjs && npm run compile-srcimagemanipulationjs",
-        "compile": "npm run compile-1_script && npm run compile-2_script"
-    },
-    "window": {
-        "icon": "images/icons/48.png",
-        "toolbar": false
-    },
-    "dependencies": {
-        "nw": "^0.12.0-1",
-        "wallpaper": "^1.0.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/1j01/jspaint.git"
-    },
-    "bugs": {
-        "url": "http://github.com/1j01/jspaint/issues"
-    },
-    "devDependencies": {
-        "cross-spawn": "^5.0.1",
-        "http-server": "^0.9.0",
-        "parallelshell": "^2.0.0",
-        "phantomcss": "^1.1.4",
-        "babel-cli": "latest",
-        "babel-core": "latest",
-        "babel-plugin-add-module-exports": "latest",
-        "babel-plugin-transform-es2015-modules-commonjs": "latest",
-        "babel-polyfill": "latest",
-        "babel-preset-env": "latest",
-        "babel-preset-es2015-without-strict": "latest"
-    }
+  "name": "webpack-template",
+  "version": "0.1.0",
+  "description": "A minimal webpack/ES6 project template",
+  "main": "src/main.js",
+  "dependencies": {
+    "babel-polyfill": "^6.0.16",
+    "jquery": "^3.1.1"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^2.0.0",
+    "babel-core": "^6.1.2",
+    "babel-loader": "^6.0.1",
+    "babel-preset-es2015": "^6.1.2",
+    "css-loader": "^0.15.1",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
+    "node-libs-browser": "^0.5.2",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.10.0",
+    "webpack-dev-server": "^1.10.1",
+    "write-file-webpack-plugin": "^3.4.2"
+  },
+  "scripts": {
+    "start": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+  },
+  "keywords": [
+    "webpack",
+    "webpack-dev-server",
+    "template",
+    "starter",
+    "es6",
+    "babel"
+  ],
+  "author": "James K Nelson <james@jamesknelson.com>",
+  "license": "MIT"
 }
