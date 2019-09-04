@@ -1,4 +1,16 @@
 
+import "..\\lib\\jquery.min.js";
+import { helpers_$G_modificationFunc_0 } from ".\\helpers.js";
+import { $G } from ".\\helpers.js";
+import { menus } from ".\\menus.js";
+import { ____________________________ } from ".\\menus.js";
+import { button } from ".\\app.js";
+import { $status_text } from ".\\app.js";
+import { $V } from ".\\app.js";
+import { e } from "..\\lib\\font-detective.js";
+import { E } from ".\\helpers.js";
+import { enabled } from ".\\menus.js";
+import { action } from ".\\menus.js";
 (function(){
 	var $ = jQuery;
 	var $G = $(self);
@@ -8,7 +20,7 @@
 			parent.jQuery.should_exist; // (will throw otherwise)
 			parent.PointerEventsPolyfill.should_also_exist; // (will throw otherwise)
 			$ = parent.jQuery;
-			$G = $([self, parent]);
+			helpers_$G_modificationFunc_0();
 			go_outside_frame = true;
 		}catch(e){}
 	}

@@ -1,38 +1,102 @@
 
-function update_magnified_canvas_size(){
+import "..\\lib\\jquery.min.js";
+import { saveAs } from "..\\lib\\FileSaver.js";
+import { $w } from ".\\sessions.js";
+import { $G } from ".\\helpers.js";
+import { TAU } from ".\\helpers.js";
+import { tools } from ".\\tools.js";
+import { $toolbox } from ".\\app.js";
+import { $canvas } from ".\\app.js";
+import { ctx } from ".\\app.js";
+import { canvas } from ".\\app.js";
+import { $canvas_area } from ".\\app.js";
+import { $app } from ".\\app.js";
+import { app_saved_modificationFunc_55 } from ".\\app.js";
+import { app_saved_modificationFunc_54 } from ".\\app.js";
+import { app_saved_modificationFunc_53 } from ".\\app.js";
+import { app_saved_modificationFunc_52 } from ".\\app.js";
+import { app_saved_modificationFunc_51 } from ".\\app.js";
+import { saved } from ".\\app.js";
+import { app_file_name_modificationFunc_50 } from ".\\app.js";
+import { app_file_name_modificationFunc_49 } from ".\\app.js";
+import { app_file_name_modificationFunc_48 } from ".\\app.js";
+import { app_file_name_modificationFunc_47 } from ".\\app.js";
+import { file_name } from ".\\app.js";
+import { app_redos_modificationFunc_46 } from ".\\app.js";
+import { app_redos_modificationFunc_45 } from ".\\app.js";
+import { app_redos_modificationFunc_44 } from ".\\app.js";
+import { redos } from ".\\app.js";
+import { app_undos_modificationFunc_43 } from ".\\app.js";
+import { undos } from ".\\app.js";
+import { app_textbox_modificationFunc_42 } from ".\\app.js";
+import { textbox } from ".\\app.js";
+import { app_selection_modificationFunc_41 } from ".\\app.js";
+import { app_selection_modificationFunc_40 } from ".\\app.js";
+import { app_selection_modificationFunc_39 } from ".\\app.js";
+import { app_selection_modificationFunc_38 } from ".\\app.js";
+import { selection } from ".\\app.js";
+import { app_colors_modificationFunc_37 } from ".\\app.js";
+import { colors } from ".\\app.js";
+import { app_previous_tool_modificationFunc_36 } from ".\\app.js";
+import { previous_tool } from ".\\app.js";
+import { app_selected_tool_modificationFunc_35 } from ".\\app.js";
+import { selected_tool } from ".\\app.js";
+import { my_canvas_height } from ".\\app.js";
+import { my_canvas_width } from ".\\app.js";
+import { default_canvas_height } from ".\\app.js";
+import { default_canvas_width } from ".\\app.js";
+import { app_magnification_modificationFunc_34 } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { app_transparency_modificationFunc_33 } from ".\\app.js";
+import { app_transparency_modificationFunc_32 } from ".\\app.js";
+import { app_transparency_modificationFunc_31 } from ".\\app.js";
+import { transparency } from ".\\app.js";
+import { fs } from "..\\test.js";
+import { stretch_and_skew } from ".\\image-manipulation.js";
+import { rotate } from ".\\image-manipulation.js";
+import { flip_vertical } from ".\\image-manipulation.js";
+import { flip_horizontal } from ".\\image-manipulation.js";
+import { apply_image_transformation } from ".\\image-manipulation.js";
+import { e } from "..\\lib\\font-detective.js";
+import { Selection } from ".\\Selection.js";
+import { Canvas } from ".\\helpers.js";
+import { E } from ".\\helpers.js";
+import { $FormWindow } from ".\\$Window.js";
+import { end } from ".\\tools.js";
+import { passive } from ".\\tools.js";
+import { action } from ".\\menus.js";
+export var file_entry;
+
+export function update_magnified_canvas_size() {
 	$canvas.css("width", canvas.width * magnification);
 	$canvas.css("height", canvas.height * magnification);
 }
 
-function set_magnification(scale){
-	magnification = scale;
+export function set_magnification(scale) {
+	app_magnification_modificationFunc_34();
 	update_magnified_canvas_size();
 	$G.triggerHandler("resize");
 }
 
-function reset_magnification(){
+export function reset_magnification() {
 	set_magnification(1);
 }
 
-function reset_colors(){
-	colors = {
-		foreground: "#000000",
-		background: "#ffffff",
-		ternary: "",
-	};
+export function reset_colors() {
+	app_colors_modificationFunc_37();
 	$G.trigger("option-changed");
 }
 
-function reset_file(){
+export function reset_file() {
 	file_entry = null;
-	file_name = "untitled";
+	app_file_name_modificationFunc_47();
 	update_title();
-	saved = true;
+	app_saved_modificationFunc_51();
 }
 
-function reset_canvas(){
-	undos = [];
-	redos = [];
+export function reset_canvas() {
+	app_undos_modificationFunc_43();
+	app_redos_modificationFunc_44();
 	
 	canvas.width = my_canvas_width;
 	canvas.height = my_canvas_height;
@@ -43,11 +107,11 @@ function reset_canvas(){
 	$canvas_area.trigger("resize");
 }
 
-function update_title(){
+export function update_title() {
 	document.title = file_name + " - Paint";
 }
 
-function create_and_trigger_input(attrs, callback){
+export function create_and_trigger_input(attrs, callback) {
 	var $input = $(E("input")).attr(attrs)
 		.on("change", function(){
 			callback(this);
@@ -59,7 +123,7 @@ function create_and_trigger_input(attrs, callback){
 	return $input;
 }
 
-function get_FileList(callback){
+export function get_FileList(callback) {
 	create_and_trigger_input({type: "file"}, function(input){
 		callback(input.files);
 	});
@@ -81,28 +145,31 @@ function open_from_Image(img, callback){
 		callback && callback();
 	});
 }
-function open_from_URI(uri, callback){
+
+export function open_from_URI(uri, callback) {
 	var img = new Image();
 	img.onload = function(){
 		open_from_Image(img, callback);
 	};
 	img.src = uri;
 }
+
 function open_from_File(file, callback){
 	// @TODO: use URL.createObjectURL(file) when available
 	// use URL.revokeObjectURL() too
 	var reader = new FileReader();
 	reader.onload = function(e){
 		open_from_URI(e.target.result, function(){
-			file_name = file.name;
+			app_file_name_modificationFunc_48();
 			update_title();
-			saved = true;
+			app_saved_modificationFunc_52();
 			callback && callback();
 		});
 	};
 	reader.readAsDataURL(file);
 }
-function open_from_FileList(files, callback){
+
+export function open_from_FileList(files, callback) {
 	$.each(files, function(i, file){
 		if(file.type.match(/image/)){
 			open_from_File(file, callback);
@@ -110,7 +177,8 @@ function open_from_FileList(files, callback){
 		}
 	});
 }
-function open_from_FileEntry(entry, callback){
+
+export function open_from_FileEntry(entry, callback) {
 	entry.file(function(file){
 		open_from_File(file, function(){
 			file_entry = entry;
@@ -118,6 +186,7 @@ function open_from_FileEntry(entry, callback){
 		});
 	});
 }
+
 function save_to_FileEntry(entry, callback){
 	entry.createWriter(function(file_writer){
 		file_writer.onwriteend = function(e){
@@ -134,7 +203,7 @@ function save_to_FileEntry(entry, callback){
 	});
 }
 
-function file_new(){
+export function file_new() {
 	are_you_sure(function(){
 		this_ones_a_frame_changer();
 		
@@ -145,7 +214,7 @@ function file_new(){
 	});
 }
 
-function file_open(){
+export function file_open() {
 	if(window.chrome && chrome.fileSystem && chrome.fileSystem.chooseEntry){
 		chrome.fileSystem.chooseEntry({
 			type: "openFile",
@@ -162,9 +231,9 @@ function file_open(){
 	}
 }
 
-function file_save(){
+export function file_save() {
 	if(file_name.match(/\.svg$/)){
-		file_name += ".png";
+		app_file_name_modificationFunc_49();
 		//update_title()?
 		return file_save_as();
 	}
@@ -175,7 +244,7 @@ function file_save(){
 	}
 }
 
-function file_save_as(){
+export function file_save_as() {
 	if(window.chrome && chrome.fileSystem && chrome.fileSystem.chooseEntry){
 		chrome.fileSystem.chooseEntry({
 			type: 'saveFile',
@@ -186,7 +255,7 @@ function file_save_as(){
 				return console.error(chrome.runtime.lastError.message);
 			}
 			file_entry = entry;
-			file_name = entry.name;
+			app_file_name_modificationFunc_50();
 			update_title();
 			save_to_FileEntry(file_entry);
 		});
@@ -195,7 +264,7 @@ function file_save_as(){
 			var file_saver = saveAs(blob, file_name);
 			file_saver.onwriteend = function(){
 				// this won't fire in chrome
-				saved = true;
+				app_saved_modificationFunc_53();
 			};
 		});
 	}
@@ -225,7 +294,7 @@ function are_you_sure(action){
 	}
 }
 
-function paste_file(blob){
+export function paste_file(blob) {
 	var reader = new FileReader();
 	reader.onload = function(e){
 		var img = new Image();
@@ -237,7 +306,7 @@ function paste_file(blob){
 	reader.readAsDataURL(blob);
 }
 
-function paste_from(){
+export function paste_from() {
 	get_FileList(function(files){
 		$.each(files, function(i, file){
 			if(file.type.match(/image/)){
@@ -248,7 +317,7 @@ function paste_from(){
 	});
 }
 
-function paste(img){
+export function paste(img) {
 	
 	if(img.width > canvas.width || img.height > canvas.height){
 		var $w = new $FormWindow().addClass("jspaint-dialogue-window");
@@ -289,12 +358,12 @@ function paste(img){
 		// Note: selecting a tool calls deselect();
 		select_tool("Select");
 		
-		selection = new Selection(0, 0, img.width, img.height);
+		app_selection_modificationFunc_38();
 		selection.instantiate(img);
 	}
 }
 
-function render_history_as_gif(){
+export function render_history_as_gif() {
 	var $win = $FormWindow();
 	$win.title("Rendering GIF");
 	$win.center();
@@ -375,15 +444,15 @@ function render_history_as_gif(){
 	}
 }
 
-function undoable(callback, action){
-	saved = false;
+export function undoable(callback, action) {
+	app_saved_modificationFunc_54();
 	if(redos.length > 5){
 		var $w = new $FormWindow().addClass("jspaint-dialogue-window");
 		$w.title("Paint");
 		$w.$main.html("Discard "+redos.length+" possible redo-able actions?<br>(Ctrl+Y or Ctrl+Shift+Z to redo)<br>");
 		$w.$Button(action ? "Discard and Apply" : "Discard", function(){
 			$w.close();
-			redos = [];
+			app_redos_modificationFunc_45();
 			action && action();
 		}).focus();
 		$w.$Button("Keep", function(){
@@ -392,7 +461,7 @@ function undoable(callback, action){
 		$w.center();
 		return false;
 	}else{
-		redos = [];
+		app_redos_modificationFunc_46();
 	}
 	
 	undos.push(new Canvas(canvas));
@@ -401,7 +470,8 @@ function undoable(callback, action){
 	callback && callback();
 	return true;
 }
-function undo(){
+
+export function undo() {
 	if(undos.length<1){ return false; }
 	this_ones_a_frame_changer();
 	
@@ -413,7 +483,8 @@ function undo(){
 	
 	return true;
 }
-function redo(){
+
+export function redo() {
 	if(redos.length<1){ return false; }
 	this_ones_a_frame_changer();
 	
@@ -425,46 +496,51 @@ function redo(){
 	
 	return true;
 }
+
 function cancel(){
 	if(!selected_tool.passive){ undo(); }
 	$G.triggerHandler("pointerup", "cancel");
 }
-function this_ones_a_frame_changer(){
+
+export function this_ones_a_frame_changer() {
 	deselect();
-	saved = false;
+	app_saved_modificationFunc_55();
 	$G.triggerHandler("pointerup", "cancel");
 	$G.triggerHandler("session-update");
 }
-function deselect(){
+
+export function deselect() {
 	if(selection){
 		selection.draw();
 		selection.destroy();
-		selection = null;
+		app_selection_modificationFunc_39();
 	}
 	if(textbox){
 		textbox.draw();
 		textbox.destroy();
-		textbox = null;
+		app_textbox_modificationFunc_42();
 	}
 	if(selected_tool.end){
 		selected_tool.end();
 	}
 }
-function delete_selection(){
+
+export function delete_selection() {
 	if(selection){
 		selection.destroy();
-		selection = null;
+		app_selection_modificationFunc_40();
 	}
 }
-function select_all(){
+
+export function select_all() {
 	// Note: selecting a tool calls deselect();
 	select_tool("Select");
 	
-	selection = new Selection(0, 0, canvas.width, canvas.height);
+	app_selection_modificationFunc_41();
 	selection.instantiate();
 }
 
-function image_invert(){
+export function image_invert() {
 	apply_image_transformation(function(original_canvas, original_ctx, new_canvas, new_ctx){
 		var id = original_ctx.getImageData(0, 0, original_canvas.width, original_canvas.height);
 		for(var i=0; i<id.data.length; i+=4){
@@ -476,7 +552,7 @@ function image_invert(){
 	});
 }
 
-function clear(){
+export function clear() {
 	undoable(0, function(){
 		this_ones_a_frame_changer();
 		
@@ -489,16 +565,16 @@ function clear(){
 	});
 }
 
-function view_bitmap(){
+export function view_bitmap() {
 	if(canvas.requestFullscreen){ canvas.requestFullscreen(); }
 	if(canvas.webkitRequestFullscreen){ canvas.webkitRequestFullscreen(); }
 }
 
 function select_tool(name){
-	previous_tool = selected_tool;
+	app_previous_tool_modificationFunc_36();
 	for(var i=0; i<tools.length; i++){
 		if(tools[i].name == name){
-			selected_tool = tools[i];
+			app_selected_tool_modificationFunc_35();
 		}
 	}
 	if($toolbox){
@@ -507,7 +583,7 @@ function select_tool(name){
 }
 
 function detect_transparency(){
-	transparency = false;
+	app_transparency_modificationFunc_31();
 	
 	// @TODO Optimization: Assume JPEGs and some other file types are opaque.
 	// Raster file formats that SUPPORT transparency include GIF, PNG, BMP and TIFF
@@ -516,12 +592,12 @@ function detect_transparency(){
 	var id = ctx.getImageData(0, 0, canvas.width, canvas.height);
 	for(var i=0, l=id.data.length; i<l; i+=4){
 		if(id.data[i+3] < 255){
-			transparency = true;
+			app_transparency_modificationFunc_32();
 		}
 	}
 }
 
-function image_attributes(){
+export function image_attributes() {
 	if(image_attributes.$window){
 		image_attributes.$window.close();
 	}
@@ -593,7 +669,7 @@ function image_attributes(){
 		var unit = $units.find(":checked").val();
 		
 		image_attributes.unit = unit;
-		transparency = (to == "transparent");
+		app_transparency_modificationFunc_33());
 		
 		var unit_to_px = unit_sizes_in_px[unit];
 		var width = $width.val() * unit_to_px;
@@ -619,7 +695,7 @@ function image_attributes(){
 	image_attributes.$window.center();
 }
 
-function image_flip_and_rotate(){
+export function image_flip_and_rotate() {
 	var $w = new $FormWindow("Flip and Rotate");
 	
 	var $fieldset = $(E("fieldset")).appendTo($w.$main);
@@ -696,7 +772,7 @@ function image_flip_and_rotate(){
 	$w.center();
 }
 
-function image_stretch_and_skew(){
+export function image_stretch_and_skew() {
 	var $w = new $FormWindow("Stretch and Skew");
 	
 	var $fieldset_stretch = $(E("fieldset")).appendTo($w.$main);
@@ -745,7 +821,7 @@ function image_stretch_and_skew(){
 	$w.center();
 }
 
-function set_as_wallpaper_tiled(c){
+export function set_as_wallpaper_tiled(c) {
 	c = c || canvas;
 	
 	var wp = new Canvas(screen.width, screen.height);
@@ -758,7 +834,7 @@ function set_as_wallpaper_tiled(c){
 	set_as_wallpaper_centered(wp);
 }
 
-function set_as_wallpaper_centered(c){
+export function set_as_wallpaper_centered(c) {
 	c = c || canvas;
 	
 	if(window.chrome && chrome.wallpaper){
@@ -793,7 +869,7 @@ function set_as_wallpaper_centered(c){
 	}
 }
 
-function save_selection_to_file(){
+export function save_selection_to_file() {
 	if(selection && selection.canvas){
 		if(window.chrome && chrome.fileSystem && chrome.fileSystem.chooseEntry){
 			chrome.fileSystem.chooseEntry({

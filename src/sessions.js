@@ -1,4 +1,38 @@
 
+import "..\\lib\\jquery.min.js";
+import { canvas-change_pointer_operations_modificationFunc_0 } from ".\\canvas-change.js";
+import { pointer_operations } from ".\\canvas-change.js";
+import { $G } from ".\\helpers.js";
+import { $canvas } from ".\\app.js";
+import { ctx } from ".\\app.js";
+import { canvas } from ".\\app.js";
+import { $canvas_area } from ".\\app.js";
+import { $app } from ".\\app.js";
+import { app_saved_modificationFunc_55 } from ".\\app.js";
+import { app_saved_modificationFunc_54 } from ".\\app.js";
+import { app_saved_modificationFunc_53 } from ".\\app.js";
+import { app_saved_modificationFunc_52 } from ".\\app.js";
+import { app_saved_modificationFunc_51 } from ".\\app.js";
+import { app_saved_modificationFunc_28 } from ".\\app.js";
+import { app_saved_modificationFunc_27 } from ".\\app.js";
+import { saved } from ".\\app.js";
+import { app_file_name_modificationFunc_26 } from ".\\app.js";
+import { app_file_name_modificationFunc_25 } from ".\\app.js";
+import { app_file_name_modificationFunc_24 } from ".\\app.js";
+import { file_name } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { storage_quota_exceeded } from ".\\manage-storage.js";
+import { e } from "..\\lib\\font-detective.js";
+import { open_from_URI } from ".\\functions.js";
+import { update_title } from ".\\functions.js";
+import { reset_file } from ".\\functions.js";
+import { Canvas } from ".\\helpers.js";
+import { E } from ".\\helpers.js";
+import { $FormWindow } from ".\\$Window.js";
+import { complete } from ".\\tools.js";
+import { end } from ".\\tools.js";
+import { e2c } from ".\\app.js";
+export var $w;
 (function(){
 	
 	var debug = function(text){
@@ -26,7 +60,7 @@
 				});
 			}else if(uri){
 				open_from_URI(uri, function(){
-					saved = false; // it's safe, sure, but you haven't "Saved" it
+					app_saved_modificationFunc_27(); // it's safe, sure, but you haven't "Saved" it
 				});
 			}
 		});
@@ -96,11 +130,11 @@
 		var session = this;
 		session.id = session_id;
 		
-		file_name = "[Loading "+session.id+"]";
+		app_file_name_modificationFunc_24();
 		update_title();
 		
 		var on_firebase_loaded = function(){
-			file_name = "["+session.id+"]";
+			app_file_name_modificationFunc_25();
 			update_title();
 			
 			session.start();
@@ -113,7 +147,7 @@
 				})
 				.fail(function(){
 					alert("Failed to load Firebase; the document will not load, and changes will not be saved.");
-					file_name = "[Failed to load "+session.id+"]";
+					app_file_name_modificationFunc_26();
 					update_title();
 				});
 		}else{
@@ -231,7 +265,7 @@
 			var uri = canvas.toDataURL();
 			if(previous_uri !== uri){
 				debug(["clear pointer operations to set data", pointer_operations]);
-				pointer_operations = [];
+				canvas-change_pointer_operations_modificationFunc_0();
 				debug("set data");
 				session.fb_data.set(uri);
 				previous_uri = uri;
@@ -255,7 +289,7 @@
 			}else{
 				previous_uri = uri;
 				
-				saved = true; // hopefully
+				app_saved_modificationFunc_28(); // hopefully
 				
 				// Load the new image data
 				var img = new Image();

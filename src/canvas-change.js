@@ -1,4 +1,15 @@
 
+import { $G } from ".\\helpers.js";
+import { $canvas } from ".\\app.js";
+import { $canvas_area } from ".\\app.js";
+import { selected_tool } from ".\\app.js";
+import { e } from "..\\lib\\font-detective.js";
+export var pointer_operations;
+
+export function canvas-change_pointer_operations_modificationFunc_0(canvas-change_pointer_operations_modificationFunc_0_argument) {
+    pointer_operations = canvas-change_pointer_operations_modificationFunc_0_argument;
+}
+
 (function(){
 	
 	var may_be_changed = function(){

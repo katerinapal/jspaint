@@ -1,5 +1,18 @@
 
-function $Component(name, orientation, $el){
+import "..\\lib\\jquery.min.js";
+import { $w } from ".\\sessions.js";
+import { $G } from ".\\helpers.js";
+import { button } from ".\\app.js";
+import { $right } from ".\\app.js";
+import { $left } from ".\\app.js";
+import { $bottom } from ".\\app.js";
+import { $top } from ".\\app.js";
+import { e } from "..\\lib\\font-detective.js";
+import { E } from ".\\helpers.js";
+import { $Window } from ".\\$Window.js";
+import { toggle } from ".\\menus.js";
+
+export function $Component(name, orientation, $el) {
 	// A draggable widget that can be undocked into a window
 	var $c = $(E("div")).addClass("jspaint-component");
 	$c.addClass("jspaint-"+name+"-component");

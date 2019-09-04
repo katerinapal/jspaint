@@ -1,4 +1,6 @@
 
+import "..\\lib\\jquery.min.js";
+import { ctx } from ".\\app.js";
 // make jQuery play well with PEP
 $.event.props.push("button", "buttons", "clientX", "clientY", "offsetX", "offsetY", "pageX", "pageY", "screenX", "screenY", "toElement");
 $.event.props.push("pointerType", "pointerId", "width", "height", "pressure", "tiltX", "tiltY", "hwTimestamp", "isPrimary");
@@ -7,7 +9,7 @@ $.event.props.push("pointerType", "pointerId", "width", "height", "pressure", "t
 FontDetective.swf = "./lib/FontList.swf";
 
 
-var TAU =     //////|//////
+export var TAU =     //////|//////
           /////     |     /////
        ///         tau         ///
      ///     ...--> | <--...     ///
@@ -17,31 +19,32 @@ var TAU =     //////|//////
 //     |            | <-..       |     //
 //    |          .->|     \       |    //
 //    |         /   |      |      |    //
-- - - - - - Math.PI + Math.PI - - - - - 0
+- - - - - - Math.PI + Math.PI - - - - - 0;
+
 //    |         \   |      |      |    //
 //    |          '->|     /       |    //
 //     |            | <-''       |     //
- //     \           |           /     //
-  //     '.         |         .'     //
-   ///     -.       |       .-     ///
-     ///     '''----|----'''     ///
-       ///          |          ///
-         //////     |     /////
-              //////|//////          C/r;
+//     \           |           /     //
+//     '.         |         .'     //
+///     -.       |       .-     ///
+///     '''----|----'''     ///
+///          |          ///
+//////     |     /////
+//////|//////          C/r;
 
-var $G = $(window);
+export var $G = $(window);
 
-function Cursor(cursor_def){
+export function Cursor(cursor_def) {
 	return "url(images/cursors/" + cursor_def[0] + ".png) " +
 		cursor_def[1].join(" ") +
 		", " + cursor_def[2];
 }
 
-function E(t){
+export function E(t) {
 	return document.createElement(t);
 }
 
-function get_rgba_from_color(color){
+export function get_rgba_from_color(color) {
 	
 	var _c = new Canvas(1, 1);
 	
@@ -59,7 +62,7 @@ function get_rgba_from_color(color){
 	
 }
 
-function Canvas(width, height){
+export function Canvas(width, height) {
 	var image = width;
 	
 	var new_canvas = E("canvas");

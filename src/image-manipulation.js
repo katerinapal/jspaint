@@ -1,5 +1,23 @@
 
-function render_brush(ctx, shape, size){
+import { tool-options_stroke_size_modificationFunc_9 } from ".\\tool-options.js";
+import { stroke_size } from ".\\tool-options.js";
+import { brush_canvas } from ".\\tool-options.js";
+import { TAU } from ".\\helpers.js";
+import { $canvas } from ".\\app.js";
+import { ctx } from ".\\app.js";
+import { canvas } from ".\\app.js";
+import { selection } from ".\\app.js";
+import { colors } from ".\\app.js";
+import { fill_color } from ".\\app.js";
+import { stroke_color } from ".\\app.js";
+import { transparency } from ".\\app.js";
+import { aliasing } from ".\\app.js";
+import { this_ones_a_frame_changer } from ".\\functions.js";
+import { undoable } from ".\\functions.js";
+import { Canvas } from ".\\helpers.js";
+import { shape } from ".\\tools.js";
+
+export function render_brush(ctx, shape, size) {
 	if(shape === "circle"){
 		size /= 2;
 		size += 0.25;
@@ -29,7 +47,7 @@ function render_brush(ctx, shape, size){
 	}
 }
 
-function draw_ellipse(ctx, x, y, w, h, stroke, fill){
+export function draw_ellipse(ctx, x, y, w, h, stroke, fill) {
 	
 	var stroke_color = ctx.strokeStyle;
 	var fill_color = ctx.fillStyle;
@@ -79,7 +97,7 @@ function draw_ellipse(ctx, x, y, w, h, stroke, fill){
 	}
 }
 
-function draw_rounded_rectangle(ctx, x, y, width, height, radius){
+export function draw_rounded_rectangle(ctx, x, y, width, height, radius) {
 	
 	var stroke_color = ctx.strokeStyle;
 	var fill_color = ctx.fillStyle;
@@ -138,8 +156,8 @@ function draw_rounded_rectangle(ctx, x, y, width, height, radius){
 	}
 }
 
-function draw_line(ctx, x1, y1, x2, y2, stroke_size){
-	stroke_size = stroke_size || 1;
+export function draw_line(ctx, x1, y1, x2, y2, stroke_size) {
+	tool-options_stroke_size_modificationFunc_9();
 	if(aliasing){
 		if(stroke_size > 1){
 			var csz = stroke_size * 2.1; // XXX: magic constant duplicated from tools.js
@@ -168,7 +186,7 @@ function draw_line(ctx, x1, y1, x2, y2, stroke_size){
 	}
 }
 
-function bresenham_line(x1, y1, x2, y2, callback){
+export function bresenham_line(x1, y1, x2, y2, callback) {
 	// Bresenham's line algorithm
 	x1=~~x1, x2=~~x2, y1=~~y1, y2=~~y2;
 	
@@ -188,7 +206,7 @@ function bresenham_line(x1, y1, x2, y2, callback){
 	}
 }
 
-function brosandham_line(x1, y1, x2, y2, callback){
+export function brosandham_line(x1, y1, x2, y2, callback) {
 	// Bresenham's line argorithm with a callback between going horizontal and vertical
 	x1=~~x1, x2=~~x2, y1=~~y1, y2=~~y2;
 	
@@ -209,7 +227,7 @@ function brosandham_line(x1, y1, x2, y2, callback){
 	}
 }
 
-function draw_fill(ctx, x, y, fill_r, fill_g, fill_b, fill_a){
+export function draw_fill(ctx, x, y, fill_r, fill_g, fill_b, fill_a) {
 	
 	var stack = [[x, y]];
 	var c_width = canvas.width;
@@ -290,7 +308,7 @@ function draw_fill(ctx, x, y, fill_r, fill_g, fill_b, fill_a){
 	}
 }
 
-function apply_image_transformation(fn){
+export function apply_image_transformation(fn) {
 	// Apply an image transformation function to either the selection or the entire canvas
 	var new_canvas = new Canvas();
 	var original_canvas = selection ? selection.canvas: canvas;
@@ -322,7 +340,7 @@ function apply_image_transformation(fn){
 	}
 }
 
-function flip_horizontal(){
+export function flip_horizontal() {
 	apply_image_transformation(function(original_canvas, original_ctx, new_canvas, new_ctx){
 		new_ctx.translate(new_canvas.width, 0);
 		new_ctx.scale(-1, 1);
@@ -330,7 +348,7 @@ function flip_horizontal(){
 	});
 }
 
-function flip_vertical(){
+export function flip_vertical() {
 	apply_image_transformation(function(original_canvas, original_ctx, new_canvas, new_ctx){
 		new_ctx.translate(0, new_canvas.height);
 		new_ctx.scale(1, -1);
@@ -338,7 +356,7 @@ function flip_vertical(){
 	});
 }
 
-function rotate(angle){
+export function rotate(angle) {
 	apply_image_transformation(function(original_canvas, original_ctx, new_canvas, new_ctx){
 		new_ctx.save();
 		switch(angle){
@@ -406,7 +424,7 @@ function rotate(angle){
 	});
 }
 
-function stretch_and_skew(xscale, yscale, hsa, vsa){
+export function stretch_and_skew(xscale, yscale, hsa, vsa) {
 	apply_image_transformation(function(original_canvas, original_ctx, new_canvas, new_ctx){
 		var w = original_canvas.width * xscale;
 		var h = original_canvas.height * yscale;
@@ -456,7 +474,7 @@ function stretch_and_skew(xscale, yscale, hsa, vsa){
 	});
 }
 
-function cut_polygon(points, x_min, y_min, x_max, y_max, from_canvas){
+export function cut_polygon(points, x_min, y_min, x_max, y_max, from_canvas) {
 	// Cut out the polygon given by points bounded by x/y_min/max from from_canvas
 	
 	from_canvas = from_canvas || canvas;

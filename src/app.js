@@ -1,80 +1,135 @@
 
-var aliasing = true;
-var transparency = false;
+import "..\\lib\\jquery.min.js";
+import { tool-options_stroke_size_modificationFunc_9 } from ".\\tool-options.js";
+import { tool-options_stroke_size_modificationFunc_7 } from ".\\tool-options.js";
+import { stroke_size } from ".\\tool-options.js";
+import { tool-options_pencil_size_modificationFunc_6 } from ".\\tool-options.js";
+import { pencil_size } from ".\\tool-options.js";
+import { tool-options_airbrush_size_modificationFunc_5 } from ".\\tool-options.js";
+import { airbrush_size } from ".\\tool-options.js";
+import { tool-options_eraser_size_modificationFunc_4 } from ".\\tool-options.js";
+import { eraser_size } from ".\\tool-options.js";
+import { tool-options_brush_size_modificationFunc_3 } from ".\\tool-options.js";
+import { brush_size } from ".\\tool-options.js";
+import { tool-options_brush_shape_modificationFunc_2 } from ".\\tool-options.js";
+import { tool-options_brush_shape_modificationFunc_1 } from ".\\tool-options.js";
+import { tool-options_brush_shape_modificationFunc_0 } from ".\\tool-options.js";
+import { brush_shape } from ".\\tool-options.js";
+import { file_entry } from ".\\functions.js";
+import { $G } from ".\\helpers.js";
+import { TAU } from ".\\helpers.js";
+import { tools } from ".\\tools.js";
+import { rotate } from ".\\image-manipulation.js";
+import { brosandham_line } from ".\\image-manipulation.js";
+import { bresenham_line } from ".\\image-manipulation.js";
+import { e } from "..\\lib\\font-detective.js";
+import { image_attributes } from ".\\functions.js";
+import { view_bitmap } from ".\\functions.js";
+import { clear } from ".\\functions.js";
+import { image_invert } from ".\\functions.js";
+import { select_all } from ".\\functions.js";
+import { delete_selection } from ".\\functions.js";
+import { deselect } from ".\\functions.js";
+import { redo } from ".\\functions.js";
+import { undo } from ".\\functions.js";
+import { undoable } from ".\\functions.js";
+import { render_history_as_gif } from ".\\functions.js";
+import { paste } from ".\\functions.js";
+import { paste_file } from ".\\functions.js";
+import { file_save_as } from ".\\functions.js";
+import { file_save } from ".\\functions.js";
+import { file_open } from ".\\functions.js";
+import { file_new } from ".\\functions.js";
+import { open_from_FileEntry } from ".\\functions.js";
+import { open_from_FileList } from ".\\functions.js";
+import { open_from_URI } from ".\\functions.js";
+import { reset_canvas } from ".\\functions.js";
+import { reset_file } from ".\\functions.js";
+import { reset_colors } from ".\\functions.js";
+import { reset_magnification } from ".\\functions.js";
+import { update_magnified_canvas_size } from ".\\functions.js";
+import { $ColorBox } from ".\\$ColorBox.js";
+import { $ToolBox } from ".\\$ToolBox.js";
+import { $Handles } from ".\\$Handles.js";
+import { Canvas } from ".\\helpers.js";
+import { E } from ".\\helpers.js";
+import { passive } from ".\\tools.js";
+import { shape } from ".\\tools.js";
+import { cancel } from ".\\tools.js";
+import { pointerup } from ".\\tools.js";
+import { paint } from ".\\tools.js";
+import { pointerdown } from ".\\tools.js";
+export var aliasing = true;
+export var transparency = false;
+export var magnification = 1;
+export var default_canvas_width = 683;
+export var default_canvas_height = 384;
+export var my_canvas_width = default_canvas_width;
+export var my_canvas_height = default_canvas_height;
 
-var magnification = 1;
-
-var default_canvas_width = 683;
-var default_canvas_height = 384;
-var my_canvas_width = default_canvas_width;
-var my_canvas_height = default_canvas_height;
-
-var palette = [
+export var palette = [
 	"#000000","#787878","#790300","#757A01","#007902","#007778","#0A0078","#7B0077","#767A38","#003637","#286FFE","#083178","#4C00FE","#783B00",
 	"#FFFFFF","#BBBBBB","#FF0E00","#FAFF08","#00FF0B","#00FEFF","#3400FE","#FF00FE","#FBFF7A","#00FF7B","#76FEFF","#8270FE","#FF0677","#FF7D36",
 ];
 
-var stroke_color;
-var fill_color;
+export var stroke_color;
+export var fill_color;
 var stroke_color_k = 0;
-var fill_color_k = 0;
+export var fill_color_k = 0;
+export var selected_tool = tools[6];
+export var previous_tool = selected_tool;
 
-var selected_tool = tools[6];
-var previous_tool = selected_tool;
-var colors = {
+export var colors = {
 	foreground: "",
 	background: "",
 	ternary: "",
 };
 
-var selection; //the one and only Selection
-var textbox; //the one and only TextBox
-var font = {
+export var selection; //the one and only Selection
+export var textbox; //the one and only TextBox
+
+export var font = {
 	family: "Arial",
 	size: 12,
 	line_scale: 20 / 12
 };
 
-var undos = []; //array of <canvas>
-var redos = []; //array of <canvas>
+export var undos = []; //array of <canvas>
+export var redos = []; //array of <canvas>
+
 //var frames = []; //array of {delay: N, undos: [<canvas>], redos: [<canvas>], canvas: <canvas>}? array of Frames?
 
-var file_name;
-var saved = true;
+export var file_name;
 
-
-
-var $app = $(E("div")).addClass("jspaint").appendTo("body");
-
-var $V = $(E("div")).addClass("jspaint-vertical").appendTo($app);
+export var saved = true;
+export var $app = $(E("div")).addClass("jspaint").appendTo("body");
+export var $V = $(E("div")).addClass("jspaint-vertical").appendTo($app);
 var $H = $(E("div")).addClass("jspaint-horizontal").appendTo($V);
 
-var $canvas_area = $(E("div")).addClass("jspaint-canvas-area").appendTo($H);
+export var $canvas_area = $(E("div")).addClass("jspaint-canvas-area").appendTo($H);
 $canvas_area.attr("touch-action", "pan-x pan-y");
 
-var canvas = new Canvas();
-var ctx = canvas.ctx;
-var $canvas = $(canvas).appendTo($canvas_area);
+export var canvas = new Canvas();
+export var ctx = canvas.ctx;
+export var $canvas = $(canvas).appendTo($canvas_area);
 $canvas.attr("touch-action", "none");
 
-var $canvas_handles = $Handles($canvas_area, canvas, {outset: 4, offset: 4, size_only: true});
-
-var $top = $(E("div")).addClass("jspaint-component-area").prependTo($V);
-var $bottom = $(E("div")).addClass("jspaint-component-area").appendTo($V);
-var $left = $(E("div")).addClass("jspaint-component-area").prependTo($H);
-var $right = $(E("div")).addClass("jspaint-component-area").appendTo($H);
-
-var $status_area = $(E("div")).addClass("jspaint-status-area").appendTo($V);
-var $status_text = $(E("div")).addClass("jspaint-status-text").appendTo($status_area);
-var $status_position = $(E("div")).addClass("jspaint-status-coordinates").appendTo($status_area);
-var $status_size = $(E("div")).addClass("jspaint-status-coordinates").appendTo($status_area);
+export var $canvas_handles = $Handles($canvas_area, canvas, {outset: 4, offset: 4, size_only: true});
+export var $top = $(E("div")).addClass("jspaint-component-area").prependTo($V);
+export var $bottom = $(E("div")).addClass("jspaint-component-area").appendTo($V);
+export var $left = $(E("div")).addClass("jspaint-component-area").prependTo($H);
+export var $right = $(E("div")).addClass("jspaint-component-area").appendTo($H);
+export var $status_area = $(E("div")).addClass("jspaint-status-area").appendTo($V);
+export var $status_text = $(E("div")).addClass("jspaint-status-text").appendTo($status_area);
+export var $status_position = $(E("div")).addClass("jspaint-status-coordinates").appendTo($status_area);
+export var $status_size = $(E("div")).addClass("jspaint-status-coordinates").appendTo($status_area);
 
 ($status_text.default = function(){
 	$status_text.text("For Help, click Help Topics on the Help Menu.");
 })();
 
-var $toolbox = $ToolBox();
-var $colorbox = $ColorBox();
+export var $toolbox = $ToolBox();
+export var $colorbox = $ColorBox();
 
 reset_file();
 reset_colors();
@@ -154,7 +209,7 @@ $("body").on("dragover dragenter", function(e){
 	}
 });
 
-var keys = {};
+export var keys = {};
 $G.on("keyup", function(e){
 	delete keys[e.keyCode];
 });
@@ -211,17 +266,17 @@ $G.on("keydown", function(e){
 			}
 		}
 		if(fits_shape){
-			brush_shape = k;
+			tool-options_brush_shape_modificationFunc_0();
 			$G.trigger("option-changed");
 			break;
 		}
 	}
 	if(e.keyCode === 96){
-		brush_shape = "circle";
+		tool-options_brush_shape_modificationFunc_1();
 		$G.trigger("option-changed");
 	}
 	if(e.keyCode === 111){
-		brush_shape = "diagonal";
+		tool-options_brush_shape_modificationFunc_2();
 		$G.trigger("option-changed");
 	}
 	
@@ -252,15 +307,15 @@ $G.on("keydown", function(e){
 			selection.scale(Math.pow(2, delta));
 		}else{
 			if(selected_tool.name === "Brush"){
-				brush_size = Math.max(1, Math.min(brush_size + delta, 500));
+				tool-options_brush_size_modificationFunc_3();
 			}else if(selected_tool.name === "Eraser/Color Eraser"){
-				eraser_size = Math.max(1, Math.min(eraser_size + delta, 500));
+				tool-options_eraser_size_modificationFunc_4();
 			}else if(selected_tool.name === "Airbrush"){
-				airbrush_size = Math.max(1, Math.min(airbrush_size + delta, 500));
+				tool-options_airbrush_size_modificationFunc_5();
 			}else if(selected_tool.name === "Pencil"){
-				pencil_size = Math.max(1, Math.min(pencil_size + delta, 50));
+				tool-options_pencil_size_modificationFunc_6();
 			}else if(selected_tool.name.match(/Line|Curve|Rectangle|Ellipse|Polygon/)){
-				stroke_size = Math.max(1, Math.min(stroke_size + delta, 500));
+				tool-options_stroke_size_modificationFunc_7();
 			}
 			
 			$G.trigger("option-changed");
@@ -371,9 +426,10 @@ $G.on("cut copy paste", function(e){
 	}
 });
 
-var pointer, pointer_start, pointer_previous;
-var reverse, ctrl, button;
-function e2c(e){
+export var pointer, pointer_start, pointer_previous;
+export var reverse, ctrl, button;
+
+export function e2c(e) {
 	var rect = canvas.getBoundingClientRect();
 	var cx = e.clientX - rect.left;
 	var cy = e.clientY - rect.top;

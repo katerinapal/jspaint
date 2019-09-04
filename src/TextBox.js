@@ -1,5 +1,24 @@
 
-function TextBox(x, y, width, height){
+import "..\\lib\\jquery.min.js";
+import { $G } from ".\\helpers.js";
+import { $status_size } from ".\\app.js";
+import { $status_position } from ".\\app.js";
+import { ctx } from ".\\app.js";
+import { canvas } from ".\\app.js";
+import { $canvas_area } from ".\\app.js";
+import { font } from ".\\app.js";
+import { colors } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { OnCanvasObject } from ".\\OnCanvasObject.js";
+import { e } from "..\\lib\\font-detective.js";
+import { undoable } from ".\\functions.js";
+import { $Handles } from ".\\$Handles.js";
+import { $FontBox } from ".\\$FontBox.js";
+import { E } from ".\\helpers.js";
+import { Cursor } from ".\\helpers.js";
+import { e2c } from ".\\app.js";
+
+export function TextBox(x, y, width, height) {
 	var tb = this;
 	
 	OnCanvasObject.call(tb, x, y, width, height);

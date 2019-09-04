@@ -1,5 +1,13 @@
 
-function $Handles($container, element, options){
+import "..\\lib\\jquery.min.js";
+import { $G } from ".\\helpers.js";
+import { button } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { e } from "..\\lib\\font-detective.js";
+import { E } from ".\\helpers.js";
+import { Cursor } from ".\\helpers.js";
+
+export function $Handles($container, element, options) {
 	var outset = options.outset || 0;
 	var offset = options.offset || 0;
 	var size_only = options.size_only || false;

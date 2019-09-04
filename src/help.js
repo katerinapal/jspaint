@@ -1,7 +1,13 @@
 
+var $contents;
+var $iframe;
+import "..\\lib\\jquery.min.js";
+import { e } from "..\\lib\\font-detective.js";
+import { E } from ".\\helpers.js";
+import { $Window } from ".\\$Window.js";
 var $help_window;
 
-function show_help(){
+export function show_help() {
 	if($help_window){
 		$help_window.close();
 	}

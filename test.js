@@ -1,5 +1,6 @@
 
-var fs = require('fs');
+import { image_attributes } from ".\\src\\functions.js";
+export var fs = require('fs');
 var phantomcss = require('phantomcss');
 
 casper.test.begin( 'jspaint visual tests', function ( test ) {

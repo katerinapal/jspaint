@@ -1,13 +1,22 @@
 
-var brush_canvas = new Canvas();
-var brush_ctx = brush_canvas.ctx;
-var brush_shape = "circle";
-var brush_size = 5;
-var eraser_size = 8;
-var airbrush_size = 9;
-var pencil_size = 1;
-var stroke_size = 1; // lines, curves, shape outlines
-var transparent_opaque = "opaque";
+import "..\\lib\\jquery.min.js";
+import { $G } from ".\\helpers.js";
+import { ctx } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { render_brush } from ".\\image-manipulation.js";
+import { set_magnification } from ".\\functions.js";
+import { Canvas } from ".\\helpers.js";
+import { E } from ".\\helpers.js";
+import { shape } from ".\\tools.js";
+export var brush_canvas = new Canvas();
+export var brush_ctx = brush_canvas.ctx;
+export var brush_shape = "circle";
+export var brush_size = 5;
+export var eraser_size = 8;
+export var airbrush_size = 9;
+export var pencil_size = 1;
+export var stroke_size = 1; // lines, curves, shape outlines
+export var transparent_opaque = "opaque";
 
 var ChooserCanvas = function(
 	url, invert,
@@ -83,7 +92,8 @@ var $Choose = function(things, display, choose, is_chosen){
 	});
 	return $chooser;
 };
-var $ChooseShapeStyle = function(){
+
+export var $ChooseShapeStyle = function(){
 	var $chooser = $Choose(
 		[
 			{stroke: true, fill: false},
@@ -131,7 +141,7 @@ var $ChooseShapeStyle = function(){
 	return $chooser;
 };
 
-var $choose_brush = $Choose(
+export var $choose_brush = $Choose(
 	(function(){
 		var brush_shapes = ["circle", "square", "reverse_diagonal", "diagonal"];
 		var brush_sizes = [8, 5, 2];
@@ -172,7 +182,7 @@ var $choose_brush = $Choose(
 	}
 ).addClass("jspaint-choose-brush");
 
-var $choose_eraser_size = $Choose(
+export var $choose_eraser_size = $Choose(
 	[4, 6, 8, 10],
 	function(size, is_chosen){
 		var cecanvas = new Canvas(39, 16);
@@ -190,7 +200,7 @@ var $choose_eraser_size = $Choose(
 	}
 ).addClass("jspaint-choose-eraser");
 
-var $choose_stroke_size = $Choose(
+export var $choose_stroke_size = $Choose(
 	[1, 2, 3, 4, 5],
 	function(size, is_chosen){
 		var w = 39, h = 12, b = 5;
@@ -209,7 +219,8 @@ var $choose_stroke_size = $Choose(
 ).addClass("jspaint-choose-stroke-size");
 
 var magnifications = [1, 2, 6, 8/*, 10*/]; // ten is secret
-var $choose_magnification = $Choose(
+
+export var $choose_magnification = $Choose(
 	magnifications,
 	function(scale, is_chosen){
 		var i = magnifications.indexOf(scale);
@@ -238,7 +249,8 @@ $choose_magnification.enlarged_magnification = 4;
 
 
 var airbrush_sizes = [9, 16, 24];
-var $choose_airbrush_size = $Choose(
+
+export var $choose_airbrush_size = $Choose(
 	airbrush_sizes,
 	function(size, is_chosen){
 		
@@ -268,7 +280,7 @@ var $choose_airbrush_size = $Choose(
 	}
 ).addClass("jspaint-choose-airbrush-size");
 
-var $choose_transparency = $Choose(
+export var $choose_transparency = $Choose(
 	["opaque", "transparent"],
 	function(t_o, is_chosen){
 		var sw = 35, sh = 23; // width, height from source image

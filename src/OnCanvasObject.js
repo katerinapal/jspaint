@@ -1,5 +1,13 @@
 
-function OnCanvasObject(x, y, width, height){
+import "..\\lib\\jquery.min.js";
+import { $status_size } from ".\\app.js";
+import { $status_position } from ".\\app.js";
+import { $canvas_handles } from ".\\app.js";
+import { $canvas_area } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { E } from ".\\helpers.js";
+
+export function OnCanvasObject(x, y, width, height) {
 	this.x = x;
 	this.y = y;
 	this.width = width;

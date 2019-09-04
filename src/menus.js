@@ -1,7 +1,54 @@
 
-var ____________________________ = "A HORIZONTAL RULE / DIVIDER";
+import { tool-options_transparent_opaque_modificationFunc_8 } from ".\\tool-options.js";
+import { transparent_opaque } from ".\\tool-options.js";
+import { saveAs } from "..\\lib\\FileSaver.js";
+import { $G } from ".\\helpers.js";
+import { $colorbox } from ".\\app.js";
+import { $toolbox } from ".\\app.js";
+import { $status_area } from ".\\app.js";
+import { redos } from ".\\app.js";
+import { undos } from ".\\app.js";
+import { selection } from ".\\app.js";
+import { app_palette_modificationFunc_20 } from ".\\app.js";
+import { app_palette_modificationFunc_19 } from ".\\app.js";
+import { app_palette_modificationFunc_18 } from ".\\app.js";
+import { app_palette_modificationFunc_17 } from ".\\app.js";
+import { app_palette_modificationFunc_16 } from ".\\app.js";
+import { app_palette_modificationFunc_15 } from ".\\app.js";
+import { app_palette_modificationFunc_14 } from ".\\app.js";
+import { app_palette_modificationFunc_13 } from ".\\app.js";
+import { app_palette_modificationFunc_12 } from ".\\app.js";
+import { app_palette_modificationFunc_11 } from ".\\app.js";
+import { app_palette_modificationFunc_10 } from ".\\app.js";
+import { app_palette_modificationFunc_0 } from ".\\app.js";
+import { palette } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { manage_storage } from ".\\manage-storage.js";
+import { save_selection_to_file } from ".\\functions.js";
+import { set_as_wallpaper_centered } from ".\\functions.js";
+import { set_as_wallpaper_tiled } from ".\\functions.js";
+import { image_stretch_and_skew } from ".\\functions.js";
+import { image_flip_and_rotate } from ".\\functions.js";
+import { image_attributes } from ".\\functions.js";
+import { view_bitmap } from ".\\functions.js";
+import { clear } from ".\\functions.js";
+import { image_invert } from ".\\functions.js";
+import { select_all } from ".\\functions.js";
+import { delete_selection } from ".\\functions.js";
+import { redo } from ".\\functions.js";
+import { undo } from ".\\functions.js";
+import { paste_from } from ".\\functions.js";
+import { file_save_as } from ".\\functions.js";
+import { file_save } from ".\\functions.js";
+import { file_open } from ".\\functions.js";
+import { file_new } from ".\\functions.js";
+import { get_FileList } from ".\\functions.js";
+import { set_magnification } from ".\\functions.js";
+import { $Window } from ".\\$Window.js";
+import { show_help } from ".\\help.js";
+export var ____________________________ = "A HORIZONTAL RULE / DIVIDER";
 
-var menus = {
+export var menus = {
 	"&File": [
 		{
 			item: "&New",
@@ -302,10 +349,7 @@ var menus = {
 			item: "&Draw Opaque",
 			checkbox: {
 				toggle: function(){
-					transparent_opaque = {
-						"opaque": "transparent",
-						"transparent": "opaque",
-					}[transparent_opaque];
+					tool-options_transparent_opaque_modificationFunc_8();
 					
 					$G.trigger("option-changed");
 				},
@@ -333,7 +377,7 @@ var menus = {
 						if(err){
 							alert("This file is not in a format the paint recognizes, or no colors were found.");
 						}else{
-							palette = new_palette;
+							app_palette_modificationFunc_0();
 							$colorbox.rebuild_palette();
 						}
 					});

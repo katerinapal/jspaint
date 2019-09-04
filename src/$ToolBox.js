@@ -1,5 +1,22 @@
 
-function $ToolBox(){
+import "..\\lib\\jquery.min.js";
+import { tools } from ".\\tools.js";
+import { $status_text } from ".\\app.js";
+import { $canvas } from ".\\app.js";
+import { app_previous_tool_modificationFunc_36 } from ".\\app.js";
+import { app_previous_tool_modificationFunc_23 } from ".\\app.js";
+import { previous_tool } from ".\\app.js";
+import { app_selected_tool_modificationFunc_35 } from ".\\app.js";
+import { app_selected_tool_modificationFunc_22 } from ".\\app.js";
+import { app_selected_tool_modificationFunc_21 } from ".\\app.js";
+import { selected_tool } from ".\\app.js";
+import { $Component } from ".\\$Component.js";
+import { deselect } from ".\\functions.js";
+import { E } from ".\\helpers.js";
+import { Cursor } from ".\\helpers.js";
+import { activate } from ".\\tools.js";
+
+export function $ToolBox() {
 	var $tb = $(E("div")).addClass("jspaint-tool-box");
 	var $tools = $(E("div")).addClass("jspaint-tools");
 	var $tool_options = $(E("div")).addClass("jspaint-tool-options");
@@ -34,12 +51,12 @@ function $ToolBox(){
 		
 		$b.on("click", function(){
 			if(selected_tool === tool && tool.deselect){
-				selected_tool = previous_tool;
+				app_selected_tool_modificationFunc_21();
 			}else{
 				if(!tool.deselect){
-					previous_tool = tool;
+					app_previous_tool_modificationFunc_23();
 				}
-				selected_tool = tool;
+				app_selected_tool_modificationFunc_22();
 			}
 			$c.update_selected_tool();
 		});

@@ -1,7 +1,13 @@
 
+import "..\\lib\\jquery.min.js";
+import { $w } from ".\\sessions.js";
+import { $G } from ".\\helpers.js";
+import { e } from "..\\lib\\font-detective.js";
+import { E } from ".\\helpers.js";
+import { action } from ".\\menus.js";
 $Window.Z_INDEX = 5;
 
-function $Window($component){
+export function $Window($component) {
 	var $w = $(E("div")).addClass("jspaint-window").appendTo("body");
 	$w.$titlebar = $(E("div")).addClass("jspaint-window-titlebar").appendTo($w);
 	$w.$title = $(E("span")).addClass("jspaint-window-title").appendTo($w.$titlebar);
@@ -182,7 +188,7 @@ function $Window($component){
 	return $w;
 }
 
-function $FormWindow(title){
+export function $FormWindow(title) {
 	var $w = new $Window();
 	
 	$w.title(title);
@@ -211,4 +217,4 @@ function $FormWindow(title){
 	};
 	
 	return $w;
-};
+}

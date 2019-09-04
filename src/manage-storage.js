@@ -1,9 +1,13 @@
 
+import "..\\lib\\jquery.min.js";
+import { $w } from ".\\sessions.js";
+import { E } from ".\\helpers.js";
+import { $FormWindow } from ".\\$Window.js";
 var $storage_manager;
 var $quota_exceeded_window;
 var ignoring_quota_exceeded = false;
 
-function storage_quota_exceeded(){
+export function storage_quota_exceeded() {
 	if($quota_exceeded_window){
 		$quota_exceeded_window.close();
 		$quota_exceeded_window = null;
@@ -34,7 +38,7 @@ function storage_quota_exceeded(){
 	$quota_exceeded_window = $w;
 }
 
-function manage_storage(){
+export function manage_storage() {
 	if($storage_manager){
 		$storage_manager.close();
 	}

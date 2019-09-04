@@ -1,5 +1,18 @@
 
-function $ColorBox(){
+import "..\\lib\\jquery.min.js";
+import { $G } from ".\\helpers.js";
+import { app_button_modificationFunc_30 } from ".\\app.js";
+import { button } from ".\\app.js";
+import { app_ctrl_modificationFunc_29 } from ".\\app.js";
+import { ctrl } from ".\\app.js";
+import { colors } from ".\\app.js";
+import { palette } from ".\\app.js";
+import { e } from "..\\lib\\font-detective.js";
+import { $Component } from ".\\$Component.js";
+import { create_and_trigger_input } from ".\\functions.js";
+import { E } from ".\\helpers.js";
+
+export function $ColorBox() {
 	var $cb = $(E("div")).addClass("jspaint-color-box");
 	
 	var $current_colors = $(E("div")).addClass("jspaint-current-colors");
@@ -68,8 +81,8 @@ function $ColorBox(){
 			
 			var button, ctrl;
 			$b.on("pointerdown", function(e){
-				ctrl = e.ctrlKey;
-				button = e.button;
+				app_ctrl_modificationFunc_29();
+				app_button_modificationFunc_30();
 				if(button === 0){
 					$last_fg_color_button = $b;
 				}

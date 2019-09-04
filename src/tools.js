@@ -1,4 +1,62 @@
 
+import "..\\lib\\jquery.min.js";
+import { $choose_transparency } from ".\\tool-options.js";
+import { $choose_airbrush_size } from ".\\tool-options.js";
+import { $choose_magnification } from ".\\tool-options.js";
+import { $choose_stroke_size } from ".\\tool-options.js";
+import { $choose_eraser_size } from ".\\tool-options.js";
+import { $choose_brush } from ".\\tool-options.js";
+import { $ChooseShapeStyle } from ".\\tool-options.js";
+import { stroke_size } from ".\\tool-options.js";
+import { airbrush_size } from ".\\tool-options.js";
+import { eraser_size } from ".\\tool-options.js";
+import { brush_size } from ".\\tool-options.js";
+import { brush_shape } from ".\\tool-options.js";
+import { brush_ctx } from ".\\tool-options.js";
+import { brush_canvas } from ".\\tool-options.js";
+import { $G } from ".\\helpers.js";
+import { button } from ".\\app.js";
+import { ctrl } from ".\\app.js";
+import { pointer } from ".\\app.js";
+import { $canvas } from ".\\app.js";
+import { ctx } from ".\\app.js";
+import { canvas } from ".\\app.js";
+import { undos } from ".\\app.js";
+import { app_textbox_modificationFunc_42 } from ".\\app.js";
+import { app_textbox_modificationFunc_9 } from ".\\app.js";
+import { app_textbox_modificationFunc_8 } from ".\\app.js";
+import { app_textbox_modificationFunc_7 } from ".\\app.js";
+import { textbox } from ".\\app.js";
+import { app_selection_modificationFunc_6 } from ".\\app.js";
+import { app_selection_modificationFunc_5 } from ".\\app.js";
+import { app_selection_modificationFunc_4 } from ".\\app.js";
+import { app_selection_modificationFunc_3 } from ".\\app.js";
+import { app_selection_modificationFunc_2 } from ".\\app.js";
+import { app_selection_modificationFunc_1 } from ".\\app.js";
+import { selection } from ".\\app.js";
+import { colors } from ".\\app.js";
+import { fill_color_k } from ".\\app.js";
+import { fill_color } from ".\\app.js";
+import { stroke_color } from ".\\app.js";
+import { magnification } from ".\\app.js";
+import { transparency } from ".\\app.js";
+import { cut_polygon } from ".\\image-manipulation.js";
+import { draw_fill } from ".\\image-manipulation.js";
+import { draw_line } from ".\\image-manipulation.js";
+import { draw_rounded_rectangle } from ".\\image-manipulation.js";
+import { draw_ellipse } from ".\\image-manipulation.js";
+import { render_brush } from ".\\image-manipulation.js";
+import { e } from "..\\lib\\font-detective.js";
+import { Selection } from ".\\Selection.js";
+import { deselect } from ".\\functions.js";
+import { undoable } from ".\\functions.js";
+import { reset_magnification } from ".\\functions.js";
+import { set_magnification } from ".\\functions.js";
+import { TextBox } from ".\\TextBox.js";
+import { get_rgba_from_color } from ".\\helpers.js";
+import { E } from ".\\helpers.js";
+import { e2c } from ".\\app.js";
+export var tools;
 tools = [{
 	name: "Free-Form Select",
 	description: "Selects a free-form part of the picture to move, copy, or edit.",
@@ -98,12 +156,7 @@ tools = [{
 		);
 		
 		// Make the selection
-		selection = new Selection(
-			this.x_min,
-			this.y_min,
-			this.x_max - this.x_min,
-			this.y_max - this.y_min
-		);
+		app_selection_modificationFunc_1();
 		selection.instantiate(cutout);
 		selection.cut_out_background();
 	},
@@ -121,7 +174,7 @@ tools = [{
 		if(selection){
 			selection.draw();
 			selection.destroy();
-			selection = null;
+			app_selection_modificationFunc_2();
 		}
 		var pointer_has_moved = false;
 		$G.one("pointermove", function(){
@@ -131,10 +184,10 @@ tools = [{
 			if(!pointer_has_moved && selection){
 				selection.draw();//?
 				selection.destroy();
-				selection = null;
+				app_selection_modificationFunc_3();
 			}
 		});
-		selection = new Selection(pointer.x, pointer.y, 1, 1);
+		app_selection_modificationFunc_4();
 	},
 	paint: function(){
 		if(!selection){ return; }
@@ -154,7 +207,7 @@ tools = [{
 		if(ctrl){
 			selection.crop();
 			selection.destroy();
-			selection = null;
+			app_selection_modificationFunc_5();
 		}else{
 			selection.instantiate();
 		}
@@ -162,7 +215,7 @@ tools = [{
 	cancel: function(){
 		if(!selection){return;}
 		selection.destroy();
-		selection = null;
+		app_selection_modificationFunc_6();
 	},
 	$options: $choose_transparency
 }, {
@@ -362,10 +415,10 @@ tools = [{
 			if(!pointer_has_moved && textbox){
 				textbox.draw();
 				textbox.destroy();
-				textbox = null;
+				app_textbox_modificationFunc_7();
 			}
 		});
-		textbox = new TextBox(pointer.x, pointer.y, 1, 1);
+		app_textbox_modificationFunc_8();
 	},
 	paint: function(){
 		if(!textbox){ return; }
@@ -386,7 +439,7 @@ tools = [{
 	cancel: function(){
 		if(!textbox){ return; }
 		textbox.destroy();
-		textbox = null;
+		app_textbox_modificationFunc_9();
 	},
 	$options: $choose_transparency
 }, {

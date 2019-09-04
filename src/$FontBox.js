@@ -1,5 +1,12 @@
 
-function $FontBox(){
+import "..\\lib\\jquery.min.js";
+import { $w } from ".\\sessions.js";
+import { $G } from ".\\helpers.js";
+import { font } from ".\\app.js";
+import { E } from ".\\helpers.js";
+import { $Window } from ".\\$Window.js";
+
+export function $FontBox() {
 	var $fb = $(E("div")).addClass("jspaint-font-box");
 	
 	var $family = $(E("select"));
